@@ -61,7 +61,7 @@ public class Network implements Serializable {
         this.neighbor = Arrays.copyOfRange(neighbor, 0, nEdges);
         this.edgeWeight = Arrays.copyOfRange(edgeWeight2, 0, nEdges);
 
-        this.nodeWeight = (nodeWeight != null) ? (double[]) nodeWeight.clone() : getTotalEdgeWeightPerNode();
+        this.nodeWeight = (nodeWeight != null) ? nodeWeight.clone() : getTotalEdgeWeightPerNode();
     }
 
     public Network(int nNodes, int[] firstNeighborIndex, int[] neighbor) {
@@ -80,17 +80,17 @@ public class Network implements Serializable {
         this.nNodes = nNodes;
 
         nEdges = neighbor.length;
-        this.firstNeighborIndex = (int[]) firstNeighborIndex.clone();
-        this.neighbor = (int[]) neighbor.clone();
+        this.firstNeighborIndex = firstNeighborIndex.clone();
+        this.neighbor = neighbor.clone();
         if (edgeWeight != null)
-            this.edgeWeight = (double[]) edgeWeight.clone();
+            this.edgeWeight = edgeWeight.clone();
         else {
             this.edgeWeight = new double[nEdges];
             Arrays.fill(this.edgeWeight, 1);
         }
         totalEdgeWeightSelfLinks = 0;
 
-        this.nodeWeight = (nodeWeight != null) ? (double[]) nodeWeight.clone() : getTotalEdgeWeightPerNode();
+        this.nodeWeight = (nodeWeight != null) ? nodeWeight.clone() : getTotalEdgeWeightPerNode();
     }
 
     private Network() {
@@ -128,7 +128,7 @@ public class Network implements Serializable {
     }
 
     public double[] getNodeWeights() {
-        return (double[]) nodeWeight.clone();
+        return nodeWeight.clone();
     }
 
     public double getNodeWeight(int node) {
@@ -161,7 +161,7 @@ public class Network implements Serializable {
         edge[0] = new int[nEdges];
         for (i = 0; i < nNodes; i++)
             Arrays.fill(edge[0], firstNeighborIndex[i], firstNeighborIndex[i + 1], i);
-        edge[1] = (int[]) neighbor.clone();
+        edge[1] = neighbor.clone();
         return edge;
     }
 
@@ -198,7 +198,7 @@ public class Network implements Serializable {
     }
 
     public double[] getEdgeWeights() {
-        return (double[]) edgeWeight.clone();
+        return edgeWeight.clone();
     }
 
     public double[] getEdgeWeights(int node) {

@@ -45,7 +45,7 @@ public class Arrays2 {
         double median;
         double[] sortedValue;
 
-        sortedValue = (double[]) value.clone();
+        sortedValue = value.clone();
         Arrays.sort(sortedValue);
         if (sortedValue.length % 2 == 1)
             median = sortedValue[(sortedValue.length - 1) / 2];

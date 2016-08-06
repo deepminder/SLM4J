@@ -24,7 +24,7 @@ public class Clustering implements Cloneable, Serializable {
 
     public Clustering(int[] cluster) {
         nNodes = cluster.length;
-        this.cluster = (int[]) cluster.clone();
+        this.cluster = cluster.clone();
         nClusters = Arrays2.calcMaximum(cluster) + 1;
     }
 
@@ -72,7 +72,7 @@ public class Clustering implements Cloneable, Serializable {
     }
 
     public int[] getClusters() {
-        return (int[]) cluster.clone();
+        return cluster.clone();
     }
 
     public int getCluster(int node) {

@@ -122,6 +122,7 @@ public class ModularityOptimizer {
                 System.out.format("Modularity: %.4f%n", maxModularity);
             } else
                 System.out.format("Maximum modularity in %d random starts: %.4f%n", nRandomStarts, maxModularity);
+            assert clustering != null;
             System.out.format("Number of communities: %d%n", clustering.getNClusters());
             System.out.format("Elapsed time: %d seconds%n", Math.round((endTime - beginTime) / 1000.0));
             System.out.println();
