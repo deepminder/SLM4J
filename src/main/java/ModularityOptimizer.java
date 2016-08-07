@@ -6,7 +6,11 @@
  * @version 1.3.0, 08/31/15
  */
 
+import edu.uci.ics.jung.graph.DirectedOrderedSparseMultigraph;
+import edu.uci.ics.jung.graph.util.Pair;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -134,58 +138,70 @@ public class ModularityOptimizer {
     }
 
     private static Network readInputFile(String fileName, int modularityFunction) throws IOException {
-        BufferedReader bufferedReader;
-        double[] edgeWeight1, edgeWeight2, nodeWeight;
-        int i, j, nEdges, nLines, nNodes;
-        int[] firstNeighborIndex, neighbor, nNeighbors, node1, node2;
-        Network network;
-        String[] splittedLine;
+        return readInputStream(new FileReader(fileName), modularityFunction);
+    }
 
-        bufferedReader = new BufferedReader(new FileReader(fileName));
+    public static Network readInputString(String input, int modularityFunction) throws IOException {
+        return readInputStream(new StringReader(input), modularityFunction);
+    }
 
-        nLines = 0;
-        while (bufferedReader.readLine() != null)
-            nLines++;
+    public static Network readJUNGGraph(DirectedOrderedSparseMultigraph<Object, Object> graph, int modularityFunction) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        ArrayList<Object> vertices = new ArrayList<>(graph.getVertices());
+        for (Object o : graph.getEdges()) {
+            Pair<Object> endpoints = graph.getEndpoints(o);
+            stringBuilder.append(vertices.indexOf(endpoints.getFirst())).append("\t").append(vertices.indexOf(endpoints.getSecond())).append("\n");
+        }
+        return readInputString(stringBuilder.toString(), modularityFunction);
+    }
 
+    private static Network readInputStream(Reader file, int modularityFunction) throws IOException {
+        int i, j;
+
+        BufferedReader bufferedReader = new BufferedReader(file);
+
+        int nLines = (int) bufferedReader.lines().count();
+        //while (bufferedReader.readLine() != null)
+        //    nLines++;
         bufferedReader.close();
 
-        bufferedReader = new BufferedReader(new FileReader(fileName));
+        bufferedReader = new BufferedReader(file);
 
-        node1 = new int[nLines];
-        node2 = new int[nLines];
-        edgeWeight1 = new double[nLines];
+        int[] node1 = new int[nLines];
+        int[] node2 = new int[nLines];
+        double[] edgeWeight1 = new double[nLines];
         i = -1;
         for (j = 0; j < nLines; j++) {
-            splittedLine = bufferedReader.readLine().split("\t");
-            node1[j] = Integer.parseInt(splittedLine[0]);
+            String[] splitLine = bufferedReader.readLine().split("\t");
+            node1[j] = Integer.parseInt(splitLine[0]);
             if (node1[j] > i)
                 i = node1[j];
-            node2[j] = Integer.parseInt(splittedLine[1]);
+            node2[j] = Integer.parseInt(splitLine[1]);
             if (node2[j] > i)
                 i = node2[j];
-            edgeWeight1[j] = (splittedLine.length > 2) ? Double.parseDouble(splittedLine[2]) : 1;
+            edgeWeight1[j] = (splitLine.length > 2) ? Double.parseDouble(splitLine[2]) : 1;
         }
-        nNodes = i + 1;
+        int nNodes = i + 1;
 
         bufferedReader.close();
 
-        nNeighbors = new int[nNodes];
+        int[] nNeighbors = new int[nNodes];
         for (i = 0; i < nLines; i++)
             if (node1[i] < node2[i]) {
                 nNeighbors[node1[i]]++;
                 nNeighbors[node2[i]]++;
             }
 
-        firstNeighborIndex = new int[nNodes + 1];
-        nEdges = 0;
+        int[] firstNeighborIndex = new int[nNodes + 1];
+        int nEdges = 0;
         for (i = 0; i < nNodes; i++) {
             firstNeighborIndex[i] = nEdges;
             nEdges += nNeighbors[i];
         }
         firstNeighborIndex[nNodes] = nEdges;
 
-        neighbor = new int[nEdges];
-        edgeWeight2 = new double[nEdges];
+        int[] neighbor = new int[nEdges];
+        double[] edgeWeight2 = new double[nEdges];
         Arrays.fill(nNeighbors, 0);
         for (i = 0; i < nLines; i++)
             if (node1[i] < node2[i]) {
@@ -200,14 +216,12 @@ public class ModularityOptimizer {
             }
 
         if (modularityFunction == 1)
-            network = new Network(nNodes, firstNeighborIndex, neighbor, edgeWeight2);
+            return new Network(nNodes, firstNeighborIndex, neighbor, edgeWeight2);
         else {
-            nodeWeight = new double[nNodes];
+            double[] nodeWeight = new double[nNodes];
             Arrays.fill(nodeWeight, 1);
-            network = new Network(nNodes, nodeWeight, firstNeighborIndex, neighbor, edgeWeight2);
+            return new Network(nNodes, nodeWeight, firstNeighborIndex, neighbor, edgeWeight2);
         }
-
-        return network;
     }
 
     private static void writeOutputFile(String fileName, Clustering clustering) throws IOException {

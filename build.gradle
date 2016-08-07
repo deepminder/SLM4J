@@ -23,4 +23,9 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
+    compile 'net.sf.jung:jung2:2.0.1'
+    compile 'net.sf.jung:jung-graph-impl:2.1'
+    compile 'net.sf.jung:jung-visualization:2.1'
+    compile 'net.sf.jung:jung-algorithms:2.1'
+    compile 'net.sf.jung:jung-samples:2.1'
 }
