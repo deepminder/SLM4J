@@ -1,3 +1,5 @@
+package org.slm4j;
+
 import edu.uci.ics.jung.graph.DirectedOrderedSparseMultigraph;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -41,7 +43,7 @@ public class JUNGTest {
         DirectedOrderedSparseMultigraph<String, String> multigraph = getSimpleMultigraph();
         Network network = ModularityOptimizer.readJUNGGraph(multigraph, 1);
 
-        double resolution = 1d / (2 * network.getTotalEdgeWeight() + network.totalEdgeWeightSelfLinks);
+        double resolution = 1d / (2 * network.getTotalEdgeWeight() + network.getTotalEdgeWeightSelfLinks());
         VOSClusteringTechnique vosClusteringTechnique = new VOSClusteringTechnique(network, resolution);
         Random r = new Random(0);
         vosClusteringTechnique.runIteratedLouvainAlgorithmWithMultilevelRefinement(100, r);

@@ -1,5 +1,5 @@
-/**
- * VOSClusteringTechnique
+package org.slm4j; /**
+ * org.slm4j.VOSClusteringTechnique
  *
  * @author Ludo Waltman
  * @author Nees Jan van Eck

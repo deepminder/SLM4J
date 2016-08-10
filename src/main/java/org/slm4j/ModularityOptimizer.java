@@ -1,5 +1,5 @@
-/**
- * ModularityOptimizer
+package org.slm4j; /**
+ * org.slm4j.ModularityOptimizer
  *
  * @author Ludo Waltman
  * @author Nees Jan van Eck

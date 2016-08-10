@@ -1,5 +1,5 @@
-/**
- * Arrays2
+package org.slm4j; /**
+ * org.slm4j.Arrays2
  *
  * @author Ludo Waltman
  * @author Nees Jan van Eck
