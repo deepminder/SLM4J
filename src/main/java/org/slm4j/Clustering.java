@@ -1,5 +1,5 @@
-/**
- * Clustering
+package org.slm4j; /**
+ * org.slm4j.Clustering
  *
  * @author Ludo Waltman
  * @author Nees Jan van Eck

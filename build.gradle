@@ -14,6 +14,8 @@ apply plugin: 'maven'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+test.useTestNG()
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -28,4 +30,10 @@ dependencies {
     compile 'net.sf.jung:jung-visualization:2.1'
     compile 'net.sf.jung:jung-algorithms:2.1'
     compile 'net.sf.jung:jung-samples:2.1'
+
+    // Declare the dependency for your favourite test framework you want to use in your tests.
+    // TestNG is also supported by the Gradle Test task. Just change the
+    //testCompile dependency to testCompile 'org.testng:testng:6.8.1' //and add
+    // 'test.useTestNG()' to your build script.
+    testCompile 'org.testng:testng:6.8.1'
 }

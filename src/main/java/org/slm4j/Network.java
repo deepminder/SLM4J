@@ -1,5 +1,5 @@
-/**
- * Network
+package org.slm4j; /**
+ * org.slm4j.Network
  *
  * @author Ludo Waltman
  * @author Nees Jan van Eck
